@@ -22,12 +22,12 @@ module.exports = {
           position: 'left',
         },
         {
-          to: 'docs',
+          to: 'docs/',
           label: 'Docs',
           position: 'left',
         },
         {
-          to: 'blog', 
+          to: 'blog/', 
           label: 'Blog', 
           position: 'left'
         }
