@@ -23,7 +23,6 @@ module.exports = {
         },
         {
           to: 'docs',
-          activeBasePath: 'docs',
           label: 'Docs',
           position: 'left',
         },
@@ -96,13 +95,13 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/yurymuski/blog-docusaurus/edit/master/',
+            'https://github.com/yurymuski/blog-docusaurus/edit/main/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/yurymuski/blog-docusaurus/edit/master/blog/',
+            'https://github.com/yurymuski/blog-docusaurus/edit/main/blog/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

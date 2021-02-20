@@ -3,6 +3,8 @@
 
 This website is built using [Docusaurus 2](https://v2.docusaurus.io/), a modern static website generator.
 
+<a href="https://docs.yurets.pro" target="_blank">Live demo</a>
+
 ## Installation
 
 ```sh
@@ -27,20 +29,17 @@ This command starts a local development server. Go to `http://localhost:3000`.
 
 Most changes are reflected live without having to restart the server.
 
-<!-- 
+
 ## Build
 
-```console
-npm build
+```sh
+# build static content served by nginx
+docker build -t ymuski/blog-docusaurus .
+
+# run
+docker run -it -p 8888:80 ymuski/blog-docusaurus
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+## License
 
-## Deployment
-
-```console
-GIT_USER=<Your GitHub username> USE_SSH=true npm deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch. 
--->
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
