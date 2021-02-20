@@ -37,7 +37,7 @@ Most changes are reflected live without having to restart the server.
 docker build -t ymuski/blog-docusaurus .
 
 # run
-docker run -it -p 8888:80 ymuski/blog-docusaurus
+docker run -d --restart=always -m 200m -p 8888:80 --name blog-docusaurus ymuski/blog-docusaurus
 ```
 
 ## License
