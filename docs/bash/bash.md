@@ -1,7 +1,7 @@
 ---
-slug: /ram/
-id: ram
-title: ram useful
+slug: /bash/
+id: bash
+title: bash useful
 ---
 
 #### clean RAM buff/cache
