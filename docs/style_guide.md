@@ -1,4 +1,5 @@
 ---
+slug: /style_guide/
 id: style_guide
 title: Style Guide
 sidebar_label: Style Guide

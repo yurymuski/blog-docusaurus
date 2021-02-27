@@ -1,4 +1,5 @@
 ---
+slug: /example/
 id: example
 title: example
 ---

@@ -1,4 +1,5 @@
 ---
+slug: /mdx/
 id: mdx
 title: Powered by MDX
 ---
