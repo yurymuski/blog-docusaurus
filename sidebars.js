@@ -1,8 +1,9 @@
 module.exports = {
   someSidebar: {
     Main: ['main'],
-   'Bash Useful': ['bash/bash' ],
-   'Kafka Useful': ['kafka/kafka' ],
+   'Bash': ['bash/bash' ],
+   'Kafka': ['kafka/kafka' ],
+   'Nginx': ['nginx/nginx' ],
     Docusaurus: ['style_guide', 'example' ],
     Features: ['mdx'],
   },
