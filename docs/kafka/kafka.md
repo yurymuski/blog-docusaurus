@@ -1,7 +1,7 @@
 ---
 slug: /kafka/
 id: kafka
-title: kafka useful
+title: Kafka useful
 ---
 
 ## Kafka Topics
