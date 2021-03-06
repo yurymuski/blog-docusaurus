@@ -101,7 +101,7 @@ requests on `sign-in`
 grep "sign-in" /var/log/nginx/domain.access.log | grep "400 " |awk '{print $1}' |sort | uniq -c | sort -n | tail -n 100 > /tmp/list.txt
 
 # Create nginx deny list
-sed 's/$/;/g; s/^\s\+[0-9]\+\s/deny /g'  /tmp/list.txt > /etc/nginx/banned-ip-list-`date +%m%d%Y`.txt
+sed 's/$/;/g; s/^\s\+[0-9]\+\s/deny /g'  /tmp/list.txt > /etc/nginx/banned-ip-list-`date +%d.%m.%Y`.txt
 ```
 Add to nginx config include of generated file and reload nginx
 
