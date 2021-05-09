@@ -10,3 +10,4 @@ Docs with usefull commands:
 - [KAFKA](kafka/kafka.md)
 - [NGINX](nginx/nginx.md)
 - [HOWTO](howto/)
+- [PHP](php/php.md)
