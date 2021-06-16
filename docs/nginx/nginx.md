@@ -72,7 +72,8 @@ limit_conn limit_conn_by_remote_ip 15;
 Analyze limit amount needed:
 ```sh
 # Count requests per IP for 1 (sign-in) location
-grep "sign-in" /var/log/nginx/domain.access.log |awk '{print $1}' |sort | uniq -c | sort -n | tail -n20
+DOMAIN="your.domain"
+grep "sign-in" /var/log/nginx/$DOMAIN.access.log |awk '{print $1}' |sort | uniq -c | sort -n | tail -n20
 # Get current connections to 443, COUNT - IP
 netstat -natupl | grep ":443 " |awk '{print $5}' | cut -f1 -d":" | sort |uniq -c  | sort -n | tail -n20
 ```
@@ -85,20 +86,21 @@ http://nginx.org/ru/docs/http/ngx_http_limit_conn_module.html
 https://www.nginx.com/blog/rate-limiting-nginx/
 ```
 
-### Block attackers IPs
+### Block attacker
 
 Identify attacker among regular user:
  - User Agent
  - Attack URI
  - GEO
 
-#### Example:
+#### Block IP:
 
 requests on `sign-in`
 
 ```sh
 # Take top 100 IPs by requests
-grep "sign-in" /var/log/nginx/domain.access.log | grep "400 " |awk '{print $1}' |sort | uniq -c | sort -n | tail -n 100 > /tmp/list.txt
+DOMAIN="your.domain"
+grep "sign-in" /var/log/nginx/$DOMAIN.access.log | grep "400 " |awk '{print $1}' |sort | uniq -c | sort -n | tail -n 100 > /tmp/list.txt
 
 # Create nginx deny list
 sed 's/$/;/g; s/^\s\+[0-9]\+\s/deny /g'  /tmp/list.txt > /etc/nginx/banned-ip-list-`date +%d.%m.%Y`.txt
@@ -107,4 +109,76 @@ Add to nginx config include of generated file and reload nginx
 
 `include /etc/nginx/banned-ip-list-*.txt;`
 
+
+#### Block User Agent:
+
+requests on `sign-in`
+
+```sh
+# Take top 50 User Agents by requests
+DOMAIN="your.domain"
+grep "sign-in" /var/log/nginx/$DOMAIN.access.log | grep "400 " |awk -F '"' '{print $6}' | sort | uniq -c | sort -n | tail -n 50
+```
+
+```nginx
+# Block array of User Agents
+map $http_user_agent $bot_agents {
+  default 0;
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1' 1;
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 12_2_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1' 1;
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1' 1;
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 12_2_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1' 1;
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1' 1;
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1' 1;
+}
+
+if ($bot_agents) {
+  return 403;
+}
+
+# Block 1 User Agent
+  if ($http_user_agent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"){
+      return 403;
+  }
+```
+
 ---
+
+## CORS setup
+
+What is CORS: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+
+Possible Issue: `Access to fetch at *** from origin *** has been blocked by CORS policy: No 'Access-Control-Allow-Origin'`
+
+Setup CORS for 2 domains:
+
+```nginx
+    # allow CORS FIRST_DOMAIN and SECOND_DOMAIN
+    set $cors '';
+    set $cors_allowed_methods 'GET, POST, OPTIONS, DELETE, PUT';
+
+    if ($http_origin ~ '.*FIRST_DOMAIN|SECOND_DOMAIN)') {
+        set $cors 'origin_matched';
+    }
+
+    # Preflight requests
+    if ($request_method = OPTIONS) {
+        set $cors '${cors} & preflight';
+    }
+
+    if ($cors = 'origin_matched') {
+        add_header Access-Control-Allow-Origin $http_origin always;
+        add_header Access-Control-Allow-Methods $cors_allowed_methods;
+        add_header Access-Control-Allow-Credentials 'true' always;
+    }
+
+    if ($cors = 'origin_matched & preflight') {
+        add_header Access-Control-Allow-Origin $http_origin always;
+        add_header Access-Control-Allow-Methods $cors_allowed_methods;
+        add_header Access-Control-Allow-Credentials 'true' always;
+        add_header Content-Type text/plain;
+        add_header Content-Length 0;
+        return 204;
+    }
+
+```
