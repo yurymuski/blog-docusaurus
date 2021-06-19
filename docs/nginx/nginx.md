@@ -93,6 +93,7 @@ Identify attacker among regular user:
  - Attack URI
  - GEO
 
+---
 #### Block IP:
 
 requests on `sign-in`
@@ -102,14 +103,43 @@ requests on `sign-in`
 DOMAIN="your.domain"
 grep "sign-in" /var/log/nginx/$DOMAIN.access.log | grep "400 " |awk '{print $1}' |sort | uniq -c | sort -n | tail -n 100 > /tmp/list.txt
 
-# Create nginx deny list
+# Create nginx deny list (format: 'deny IP;')
 sed 's/$/;/g; s/^\s\+[0-9]\+\s/deny /g'  /tmp/list.txt > /etc/nginx/banned-ip-list-`date +%d.%m.%Y`.txt
 ```
 Add to nginx config include of generated file and reload nginx
 
 `include /etc/nginx/banned-ip-list-*.txt;`
 
+---
+#### Block XFF:
 
+requests on `sign-in`
+
+```sh
+# Take top 100 IPs by requests
+DOMAIN="your.domain"
+grep "sign-in" /var/log/nginx/$DOMAIN.access.log | grep "400 " |awk '{print $1}' |sort | uniq -c | sort -n | tail -n 100 > /tmp/list.txt
+
+# Create nginx deny list for XFF (format: 'IP 1;')
+sed 's/$/ 1;/g; s/^\s\+[0-9]\+\s/  /g'  /tmp/list.txt > /etc/nginx/banned-XFF-MAP-`date +%d.%m.%Y`.txt
+```
+Add to nginx config include of generated file and reload nginx
+
+```nginx
+map $http_x_forwarded_for $banned_xff {
+ default 0;
+ include /etc/nginx/banned-XFF-MAP-*.txt;
+}
+
+server {
+...
+  if ($banned_xff) {
+    return 403;
+  }
+}
+```
+
+---
 #### Block User Agent:
 
 requests on `sign-in`
