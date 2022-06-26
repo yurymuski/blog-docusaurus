@@ -1,15 +1,13 @@
 ---
-slug: php/
-title: PHP doc
+slug: prometheus/
+title: Prometheus doc
 author: Yury Muski
 author_title: Lead DevOps Engineer / SRE @ Scorum
 author_url: https://yurets.pro
 author_image_url: https://yurets.pro/avatar.webp
-tags: [php, doc]
+tags: [prometheus, doc]
 ---
 
-Created doc with my notes about PHP:
-- PHP-FPM tuning
-- PHP CLI issues
+New page with prometheus metrics tips
 
-Link: [**PHP useful**](/docs/php/).
+Link: [**Prometheus useful**](/docs/prometheus/).

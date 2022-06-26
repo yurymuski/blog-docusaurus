@@ -5,6 +5,7 @@ module.exports = {
    'Kafka': ['kafka/kafka' ],
    'Nginx': ['nginx/nginx' ],
    'PHP': ['php/php' ],
+   'Prometheus': ['prometheus/prometheus' ],
    'HOWTO': ['howto/main','howto/deployment-readiness' ],
     Docusaurus: ['style_guide', 'example' ],
     Features: ['mdx'],

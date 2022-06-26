@@ -4,7 +4,7 @@ title: How to Download video from youtube?
 author: Yury Muski
 author_title: Lead DevOps Engineer / SRE @ Scorum
 author_url: https://yurets.pro
-author_image_url: https://yurets.pro/avatar.jpeg
+author_image_url: https://yurets.pro/avatar.webp
 tags: [python]
 ---
 

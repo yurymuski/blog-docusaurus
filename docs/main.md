@@ -6,8 +6,9 @@ title: Contents
 
 Docs with usefull commands:
 
-- [BASH](bash/bash.md)
-- [KAFKA](kafka/kafka.md)
-- [NGINX](nginx/nginx.md)
+- [BASH](bash/)
+- [KAFKA](kafka/)
+- [NGINX](nginx/)
 - [HOWTO](howto/)
-- [PHP](php/php.md)
+- [PHP](php/)
+- [Prometheus](prometheus/)
