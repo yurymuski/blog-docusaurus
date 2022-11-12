@@ -12,3 +12,4 @@ Docs with usefull commands:
 - [HOWTO](howto/)
 - [PHP](php/)
 - [Prometheus](prometheus/)
+- [k8s](k8s/)
