@@ -90,7 +90,7 @@ spec:
     - -i
     - -n
     - sleep
-    - "14000"
+    - "3600"
     resources: {}
     securityContext:
       privileged: true
