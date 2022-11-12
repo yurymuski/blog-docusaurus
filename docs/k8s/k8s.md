@@ -4,7 +4,7 @@ id: k8s
 title: k8s useful
 ---
 
-# Full access k8s node POD using nsenter
+##  Full access k8s node POD using nsenter
 
 `nsenter` - run program in different namespaces. It may be used to access POD ns from host and to access host from POD. We just need to set params and add security permissions to POD.
 
@@ -60,7 +60,7 @@ NOTE: PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kub
     tolerationSeconds: 300
 ```
 
-## SumUp:
+### SumUp:
 
 ```yaml
 apiVersion: v1
