@@ -4,7 +4,7 @@ id: nginx-cache
 title: Nginx cache
 ---
 
-Using nginx cache for `proxy_pass` + [ngx_http_proxy_module](nginx.org/en/docs/http/ngx_http_proxy_module.html) is **the bad idea** by default.
+Using nginx cache for `proxy_pass` + [ngx_http_proxy_module](https://nginx.org/en/docs/http/ngx_http_proxy_module.html) is **the bad idea** by default.
 
 ## Why is it bad?
 - The proxied applicatation is not aware of this extra cache layer, it may have endpoints that should not be cached, or/and have internal logic for caching
@@ -17,7 +17,7 @@ Using nginx cache for `proxy_pass` + [ngx_http_proxy_module](nginx.org/en/docs/h
 
 We can solve the main issue by moving cache logic to the proxied applicatation. Besides common solutions like redis or memcached the backend app may manage nginx cache via `X-Accel-Expires` header.
 
-In such setup [proxy_cache_valid](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_valid) is not used. The proxied app adds `X-Accel-Expires` header and sets caching time of a response in seconds. The zero value disables caching for a response.
+In such setup [proxy_cache_valid](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_valid) is not used. The proxied app adds `X-Accel-Expires` header and sets caching time of a response in seconds. The zero value disables caching for a response.
 
 ### Example config:
 
@@ -54,6 +54,6 @@ add_header X-Cache-Status $upstream_cache_status;
     |`use_temp_path=off`              | Temp files will be put directly in the cache directory |
 
 ### Useful info:
-- [Nginx Doc](http://nginx.org/en/docs/http/ngx_http_proxy_module.html)
+- [Nginx Doc](https://nginx.org/en/docs/http/ngx_http_proxy_module.html)
 - [Habr post (RU)](https://habr.com/ru/post/428127/)
 - [Nginx Cache overview](https://www.sheshbabu.com/posts/nginx-caching-proxy/)
