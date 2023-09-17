@@ -1,5 +1,5 @@
 ---
-slug: deployment-readiness/
+slug: deployment-readiness-upd/
 title: deployment readiness checklist
 author: Yury Muski
 author_title: Lead DevOps Engineer / SRE @ Scorum
