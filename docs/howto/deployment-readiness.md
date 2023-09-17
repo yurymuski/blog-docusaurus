@@ -21,11 +21,47 @@ List of actions for checkup before deployment
 
 - [ ] App should be configured via ENV vars + .env or config file
 
-- [ ] APP should  have configurable PORT env variable
-
 - [ ] The environment has higher priority over configuration files (but lower than the command line arguments)
 
 - [ ] For static FE apps vars should be configured in runtime via config.json file, avoid setting vars on CI step
+
+- [ ] APP should have the following configurable env vars:
+
+    - `SERVER_HOST` & `SERVER_PORT` / `SERVER_ADDR` (e.g 0.0.0.0:8080)
+
+    - `HTTP_READ_TIMEOUT` & `HTTP_WRITE_TIMEOUT` / `HTTP_TIMEOUT`
+
+NOTE:
+
+`HTTP_READ_TIMEOUT` - The maximum duration for reading the entire request, including the body. => only client request read & validation, should be always fast e.g ~ 1s
+
+`HTTP_WRITE_TIMEOUT` - WriteTimeout is the maximum duration before timing out writes of the response. It is reset whenever a new request’s header is read. => Whole response time e.g ~ 10s
+
+APP should correctly handle timeouts => cancel DB queries, close connections.
+
+```go
+type Config struct {
+	Addr         string        `yaml:"addr" required:"true"`
+	ReadTimeout  time.Duration `yaml:"http_read_timeout" default:"30s"`
+	WriteTimeout time.Duration `yaml:"http_write_timeout" default:"30s"`
+}
+
+func SetupServer(handler http.Handler, cfg *Config) http.Server {
+	return http.Server{
+		Addr:         cfg.Addr,
+		ReadTimeout:  cfg.ReadTimeout,
+		WriteTimeout: cfg.WriteTimeout + time.Second*5, // should be bigger than in TimeoutHandler or omitted.
+		Handler:      http.TimeoutHandler(handler, cfg.WriteTimeout, "request timeout"),
+		ErrorLog:     log.New(logrus.StandardLogger().WriterLevel(logrus.ErrorLevel), "", 0),
+	}
+}
+```
+
+https://adam-p.ca/blog/2022/01/golang-http-server-timeouts
+
+https://www.alexedwards.net/blog/how-to-manage-database-timeouts-and-cancellations-in-go
+
+https://pkg.go.dev/net/http#TimeoutHandler
 
 ---
 ## Docker
@@ -69,6 +105,8 @@ As small as possible <200mb is OK
 
 - [ ] healthcheks should be separated also
 
+- [ ] Avoid using uniq endpoints like `POST /users/UUID/resend-email` it will generate metric and trace spam. Alternatively explicitly remove uniq parts and query params from metrics and traces
+
 ---
 ## Health and metrics routes
 
@@ -93,7 +131,7 @@ More logs = great
 
 - [ ]  All Logs in human-readable format to `STDOUT+STDERR`
 
-- [ ]  Errors to **Sentry**
+- [ ]  Errors to **Sentry** (+ add `SENTRY_ENV` var for environment tag)
 
 - [ ]  **Gelf** support, JSON logs
 
