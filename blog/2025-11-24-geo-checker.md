@@ -103,4 +103,4 @@ curl localhost:8080/myip -H "X-Real-Ip: 8.8.8.8"
 
 Geo-Checker removes the complexity of managing your own GeoIP infrastructure. It's fast, self-updating, and ready for production.
 
-**Ready to give it a try?** Check out the [GitHub repository](https://github.com/ymuski/geo-checker), pull the image from [Docker Hub](https://hub.docker.com/r/ymuski/geo-checker), or find it on [Artifact Hub](https://artifacthub.io/packages/search?repo=geo-checker).
+**Ready to give it a try?** Check out the [GitHub repository](https://github.com/yurymuski/geo-checker), pull the image from [Docker Hub](https://hub.docker.com/r/ymuski/geo-checker), or find it on [Artifact Hub](https://artifacthub.io/packages/helm/geo-checker/geo-checker).
