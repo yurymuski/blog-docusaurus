@@ -18,7 +18,7 @@ npx @docusaurus/init@latest init blog-docusaurus classic
 ```sh
 cd blog-docusaurus/
 
-# enter sh
+# enter sh and run npm install
 docker run -it --rm -p 3000:3000 --user node -w /opt/blog-docusaurus -v ${PWD}/:/opt/blog-docusaurus/ --entrypoint /bin/sh node:lts-alpine
 
 # start
