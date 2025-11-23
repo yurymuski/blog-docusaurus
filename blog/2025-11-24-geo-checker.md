@@ -10,6 +10,8 @@ tags: [geo-checker, docker, kubernetes, geoip, nginx]
 
 # Geo-Checker: The Simple, High-Performance GeoIP Lookup Server for Docker & Kubernetes
 
+![Geo-Checker Image](../static/img/geo-checker.png)
+
 In the world of microservices and containerized applications, having a reliable and fast way to determine the geolocation of your users is crucial. Whether for content localization, analytics, or security compliance, GeoIP data is a fundamental building block. Enter **Geo-Checker**, a lightweight, high-performance GeoIP lookup server designed specifically for Docker and Kubernetes environments.
 
 ## Why Geo-Checker?
@@ -29,9 +31,10 @@ Deploying Geo-Checker is straightforward. First, you'll need to [register for a 
 
 ```shell
 docker run -d \
-  -e GEOIP_ACCOUNTID=YourAccountID \
-  -e GEOIP_LICENSEKEY=YourLicenseKey \
-  -e GEOIP_EDITIONID=GeoLite2-Country \
+  -e GEOIP_ACCOUNTID=$GEOIP_ACCOUNTID \
+  -e GEOIP_LICENSEKEY=$GEOIP_LICENSEKEY \
+  -e GEOIP_EDITIONID=$GEOIP_EDITIONID \
+  --name geo-checker \
   -p 8080:80 \
   ymuski/geo-checker:latest
 ```
@@ -39,9 +42,11 @@ docker run -d \
 Or install it via Helm in your Kubernetes cluster:
 
 ```shell
-helm install geo-checker ymuski/geo-checker \
-  --set geoip.accountId=YourAccountID \
-  --set geoip.licenseKey=YourLicenseKey
+helm repo add geo-checker https://yurymuski.github.io/geo-checker/helm/
+helm repo update
+helm install my-geo-checker geo-checker/geo-checker \
+  --set maxmind.geoipAccountid="YourAccountID" \
+  --set maxmind.geoipLicensekey="YourLicenseKey"
 ```
 
 ## API Reference
