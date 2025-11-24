@@ -1,5 +1,5 @@
 ---
-slug: other/download-youtube
+slug: other/download-youtube/
 title: How to Download video from youtube?
 author: Yury Muski
 author_title: Lead DevOps Engineer / SRE

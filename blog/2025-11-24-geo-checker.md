@@ -1,5 +1,5 @@
 ---
-slug: geo-checker
+slug: geo-checker/
 title: Introducing Geo-Checker
 author: Yury Muski
 author_title: Lead DevOps Engineer / SRE
